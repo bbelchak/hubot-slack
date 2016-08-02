@@ -48,6 +48,13 @@ class SlackClient
         message.channel = @rtm.dataStore.getChannelGroupOrDMById(channel) if channel
         callback(message)
 
+    else if name is "reaction_added" or name == "reaction_removed"
+      @rtm.on name, (message) =>
+        message.channel = @rtm.dataStore.getChannelGroupOrDMById(message.item.channel) if message.item
+        message.user = @rtm.dataStore.getUserById(message.user)
+        message.item_user = @rtm.dataStore.getUserById(message.item_user)
+        callback(message)
+
     else
       @rtm.on(name, callback)
 

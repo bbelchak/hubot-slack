@@ -21,6 +21,8 @@ class SlackBot extends Adapter
     @client.on 'error', @error
     @client.on 'message', @message
     @client.on 'authenticated', @authenticated
+    @client.on 'reaction_added', @reaction_added
+    @client.on 'reaction_removed', @reaction_removed
 
     # Start logging in
     @client.connect()
@@ -105,6 +107,15 @@ class SlackBot extends Adapter
 
 
   ###
+  Handle reactions
+  ###
+  reaction_added: (message) =>
+    @robot.emit 'reaction_added', message
+
+  reaction_removed: (message) =>
+    @robot.emit 'reaction_removed', message
+
+  ###
   Message received from Slack
   ###
   message: (message) =>
@@ -144,7 +155,7 @@ class SlackBot extends Adapter
         @robot.logger.debug "#{user.name} set the topic in #{channel.name} to #{topic}"
         @receive new TopicMessage user, message.topic, message.ts
 
-      else        
+      else
         @robot.logger.debug "Received message: '#{text}' in channel: #{channel.name}, subtype: #{subtype}"
         message.user = user
         @receive new CatchAllMessage(message)
