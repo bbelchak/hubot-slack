@@ -13,6 +13,10 @@ _ = require 'lodash'
 # Stubs are recreated before each test.
 beforeEach ->
   @stubs = {}
+  @stubs.item =
+    type: 'message'
+    channel: 'C123'
+    ts: '1360782400.498405'
   @stubs.channel =
     name: 'general'
     id: 'C123'

@@ -90,7 +90,8 @@ class SlackFormatter
       for key, value of text
         text[key] = @mentions(value)
       text
-    text
+    else
+      text
 
 
   ###

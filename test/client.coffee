@@ -49,6 +49,28 @@ describe 'on()', ->
       @hit = true
     @hit.should.equal true
 
+  it 'Should open with a new reaction_added connection', ->
+    @client.on 'reaction_added', ->
+    @client.listeners.length.should.equal 1
+
+  it 'Should open with a new reaction_removed connection', ->
+    @client.on 'reaction_removed', ->
+    @client.listeners.length.should.equal 1
+
+  it 'Should hit a provided reaction_added callback', ->
+    @hit = false
+    @client.on 'reaction_added', (msg) =>
+      msg.should.equal 'reaction_added'
+      @hit = true
+    @hit.should.equal true
+
+  it 'Should hit a provided reaction_removed callback', ->
+    @hit = false
+    @client.on 'reaction_removed', (msg) =>
+      msg.should.equal 'reaction_removed'
+      @hit = true
+    @hit.should.equal true
+
 describe 'disconnect()', ->
   it 'Should disconnect all connections', ->
     @client.on 'test', ->

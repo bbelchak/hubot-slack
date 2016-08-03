@@ -135,3 +135,9 @@ describe 'Handling incoming messages', ->
   it 'Should not crash with bot messages', ->
     @slackbot.message { subtype: 'bot_message', bot: @stubs.bot, channel: @stubs.channel, text: 'Pushing is the answer' }
     should.equal (@stubs._received instanceof TextMessage), true
+
+  it 'Should handle reaction_added events with joy and gladness', ->
+    @slackbot.message {subtype: 'reaction_added', user: @stubs.user, channel: @stubs.channel, item_user: @stubs.user, item: @stubs.item}
+    should.equal (@stubs._received instanceof CatchAllMessage), true
+    console.log @stubs._received
+    @stubs._received.message.item_user.id.should.equal @stubs.user.id
